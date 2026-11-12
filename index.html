@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>ESS Portal · Employee Self-Service</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#f4f6fb;--card:#fff;--tx:#14182b;--mu:#6b7390;--bd:#e5e8f1;--ac:#4f46e5;--acs:color-mix(in srgb,var(--ac) 12%,transparent);--side:#12162b;--ok:#16a34a;--wn:#d97706;--er:#dc2626;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0c0f1d;--card:#151a2e;--tx:#e8ebf7;--mu:#8e97b8;--bd:#252c47;color-scheme:dark}}
+:root[data-theme=dark]{--bg:#0c0f1d;--card:#151a2e;--tx:#e8ebf7;--mu:#8e97b8;--bd:#252c47;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.app{display:flex;min-height:100vh}
+aside{width:236px;background:var(--side);color:#c9cfe8;padding:18px 12px;position:sticky;top:0;height:100vh;flex:none;display:flex;flex-direction:column}
+.logo{display:flex;gap:10px;align-items:center;color:#fff;font-weight:700;font-size:16px;padding:4px 8px 18px}
+.logo i{width:32px;height:32px;border-radius:9px;background:var(--ac);display:grid;place-items:center;font-style:normal}
+aside button{all:unset;cursor:pointer;display:flex;gap:11px;align-items:center;width:100%;padding:9px 12px;border-radius:9px;margin:1px 0;color:#aab2d3;font-size:13.5px;box-sizing:border-box}
+aside button:hover{background:rgba(255,255,255,.08);color:#fff}aside button.on{background:var(--ac);color:#fff}
+aside .i{width:18px;text-align:center}.sp{flex:1}
+main{flex:1;min-width:0}
+.cover{height:140px;background:linear-gradient(120deg,var(--ac),color-mix(in srgb,var(--ac) 45%,#0ea5e9) 70%,#22d3ee);position:relative}
+.hd{display:flex;gap:16px;align-items:flex-end;padding:0 28px;margin-top:-44px;position:relative;z-index:1;flex-wrap:wrap}
+.av{width:96px;height:96px;border-radius:50%;border:4px solid var(--bg);background:linear-gradient(135deg,var(--ac),#0ea5e9) center/cover;display:grid;place-items:center;font-size:32px;font-weight:700;color:#fff;cursor:pointer}
+.hd h1{margin:0;font-size:22px}.hd p{margin:0;color:var(--mu)}.grow{flex:1;padding-bottom:6px}
+.btn{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 14px;border-radius:9px;cursor:pointer;font:inherit;font-weight:600}
+.btn.p{background:var(--ac);border-color:var(--ac);color:#fff}.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}.btn.er{background:var(--er);border-color:var(--er);color:#fff}
+.tabs{display:flex;gap:4px;padding:14px 28px 0;overflow-x:auto;border-bottom:1px solid var(--bd);margin-top:10px}
+.tabs button{all:unset;cursor:pointer;padding:10px 14px;color:var(--mu);font-weight:600;border-bottom:2px solid transparent;white-space:nowrap}
+.tabs button.on{color:var(--ac);border-color:var(--ac)}
+.pg{padding:22px 28px 60px;max-width:1240px}
+.grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}.g4{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}.mt{margin-top:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px}
+.card h3{margin:0 0 12px;font-size:14px}.mu{color:var(--mu)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}.top h3{margin:0}
+.kpi b{font-size:26px;display:block}.kpi small{color:var(--mu)}
+.bar{height:7px;background:var(--bd);border-radius:9px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:var(--ac)}
+.row{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--bd)}.row:last-child{border:0}
+.tag{padding:2px 9px;border-radius:99px;font-size:11.5px;font-weight:700;background:var(--acs);color:var(--ac);display:inline-block}
+.tag.ok{background:#16a34a22;color:var(--ok)}.tag.wn{background:#d9770622;color:var(--wn)}.tag.er{background:#dc262622;color:var(--er)}
+table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--mu);font-size:12px;text-transform:uppercase;letter-spacing:.04em}th,td{padding:10px 8px;border-bottom:1px solid var(--bd)}.wrap{overflow-x:auto}
+.ic{all:unset;cursor:pointer;padding:4px 9px;border-radius:7px;color:var(--mu)}.ic:hover{background:var(--acs);color:var(--ac)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.cal>div{min-height:78px;border:1px solid var(--bd);border-radius:10px;padding:6px;font-size:12px;cursor:pointer;overflow:hidden}
+.cal .h{min-height:0;border:0;color:var(--mu);font-weight:700;cursor:default}.cal .t{border-color:var(--ac);background:var(--acs)}.cal .we{opacity:.6}.cal .z{border:0;cursor:default}
+.ev{display:block;margin-top:3px;padding:1px 5px;border-radius:5px;background:var(--ac);color:#fff;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ev.lv{background:var(--wn)}
+input,select,textarea{width:100%;padding:9px 11px;border:1px solid var(--bd);border-radius:9px;background:var(--bg);color:var(--tx);font:inherit}
+label{display:block;font-size:12px;color:var(--mu);margin:11px 0 4px;font-weight:600}
+.modal{position:fixed;inset:0;background:rgba(5,8,20,.55);display:none;place-items:center;z-index:50;padding:16px}.modal.on{display:grid}
+.modal .card{width:min(480px,100%);max-height:90vh;overflow:auto}.act{display:flex;gap:8px;margin-top:18px}
+.empty{text-align:center;padding:40px 12px}.empty .e{font-size:34px}.empty p{color:var(--mu);margin:4px 0 14px}
+.welcome{background:linear-gradient(120deg,var(--acs),transparent);border:1px solid var(--ac);border-radius:14px;padding:18px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.sw{display:inline-block;width:28px;height:28px;border-radius:50%;margin-right:8px;cursor:pointer;border:3px solid var(--card);box-shadow:0 0 0 1px var(--bd)}
+.tg{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--bd)}.tg input{width:40px;height:22px;accent-color:var(--ac)}
+.clock{font:700 32px ui-monospace,Menlo,monospace;margin:4px 0 10px}
+.bars{display:flex;gap:10px;align-items:flex-end;height:110px;padding-bottom:20px}.bars div{flex:1;background:var(--ac);border-radius:6px 6px 0 0;position:relative;min-height:3px}.bars span{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:11px;color:var(--mu)}
+.mem{display:flex;gap:12px;align-items:center;cursor:pointer}.mem .av{width:46px;height:46px;font-size:15px;border:0}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:10px;opacity:0;transition:.25s;pointer-events:none;z-index:99}.toast.on{opacity:1}
+@media(max-width:820px){aside{display:none}.pg,.tabs,.hd{padding-left:16px;padding-right:16px}}
+</style></head><body>
+<div class="app">
+<aside><div class="logo"><i>◈</i>ESS Portal</div><div id="nav"></div><div class="sp"></div><div id="nav2"></div></aside>
+<main>
+<div class="cover"></div>
+<div class="hd"><div class="av" id="av" title="Change photo"></div>
+<div class="grow"><h1 id="nm"></h1><p id="sb"></p></div>
+<button class="btn" id="chk"></button><button class="btn p" data-add="leaves">Apply Leave</button></div>
+<div class="tabs" id="tabs"></div>
+<div class="pg" id="pg"></div>
+</main></div>
+<div class="modal" id="md"><div class="card" id="mc"></div></div>
+<input type="file" id="ph" accept="image/*" hidden><input type="file" id="fi" hidden><input type="file" id="im" accept=".json" hidden>
+<div class="toast" id="ts_"></div>
+<script>
+const KEY="ess.portal.v1";
+const base=()=>({p:{},team:[],events:[],types:[],leaves:[],logs:[],att:[],dele:[],files:[],cases:[],timer:0,s:{lang:"English",tz:"",bd:true,wa:true,mob:true,ac:"#4f46e5",menu:"",mode:""}});
+let D=base();try{const r=localStorage.getItem(KEY);if(r){D=Object.assign(base(),JSON.parse(r));D.s=Object.assign(base().s,D.s)}}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){toast("Storage unavailable – use Export")}};
+const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,"0"),uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const iso=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()),today=()=>iso(new Date()),nowT=()=>pad(new Date().getHours())+":"+pad(new Date().getMinutes());
+const fd=s=>s?new Date(s+"T00:00").toLocaleDateString(undefined,{day:"2-digit",month:"short",year:"numeric"}):"—";
+const wk0=()=>{const d=new Date();d.setDate(d.getDate()-((d.getDay()+6)%7));return iso(d)};
+const hrsIn=(a,b)=>D.logs.filter(l=>l.date>=a&&l.date<=b).reduce((s,l)=>s+(+l.hours||0),0);
+const mins=t=>t?(+t.slice(0,2))*60+(+t.slice(3,5)):0;
+const ld=r=>Math.max(1,Math.round((new Date(r.to)-new Date(r.from))/864e5)+1);
+const ah=r=>r.in&&r.out?Math.max(0,(mins(r.out)-mins(r.in))/60):0;
+let toastT;function toast(m){const t=$("#ts_");t.textContent=m;t.classList.add("on");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("on"),2200)}
+const T=[["profile","Profile","👤"],["team","Team","👥"],["calendar","Calendar","📅"],["leave","Leave","🌴"],["timesheet","Timesheet","⏱"],["attendance","Attendance","✅"],["delegation","Delegation","🔁"],["files","Files","📁"],["cases","Cases","🎫"],["settings","Personal Settings","⚙"]];
+const C={
+p:{n:"Profile",f:[["name","Full name","text",0,1],["empId","Employee ID"],["company","Company"],["designation","Designation"],["dept","Department"],["email","Email","email"],["mobile","Mobile"],["location","Location"],["joined","Date of joining","date"],["manager","Reporting to"],["etype","Employment type","select",["Full-time","Part-time","Contract","Intern","Probation"]],["edu","Education"],["skills","Skills (comma separated)"]]},
+team:{n:"Team member",p:"team members",i:"👥",h:"Add the people you work with.",f:[["name","Full name","text",0,1],["role","Designation"],["email","Email","email"],["status","Status","select",["Online","Away","Offline"]]]},
+events:{n:"Event",p:"events",i:"📅",h:"Add meetings and events.",f:[["title","Title","text",0,1],["date","Date","date",0,1],["time","Time","time"],["note","Notes","textarea"]]},
+types:{n:"Leave type",p:"leave types",i:"🌴",h:"Define your leave types and yearly allowance.",f:[["name","Leave type","text",0,1],["days","Days per year","number",0,1]]},
+leaves:{n:"Leave request",p:"leave requests",i:"🌴",h:"Apply for leave to see it here.",f:[["type","Leave type","select","@types",1],["from","From","date",0,1],["to","To","date",0,1],["reason","Reason","textarea"],["status","Status","select",["Pending","Approved","Rejected"]]]},
+logs:{n:"Time log",p:"time logs",i:"⏱",h:"Start the timer or add a log manually.",f:[["date","Date","date",0,1],["project","Project"],["job","Job"],["hours","Hours","number",0,1],["bill","Billable","select",["Yes","No"]]]},
+att:{n:"Attendance entry",p:"attendance entries",i:"✅",h:"Check in, or add an entry manually.",f:[["date","Date","date",0,1],["in","Check-in","time"],["out","Check-out","time"]]},
+dele:{n:"Delegation",p:"delegations",i:"🔁",h:"Delegate approvals temporarily or permanently.",f:[["to","Delegatee","text",0,1],["type","Type","select",["Temporary","Permanent"]],["from","From","date"],["till","Till","date"],["notify","Notification","select",["Delegator and Delegatee","Delegatee"]],["desc","Description","textarea"]]},
+files:{n:"File",p:"files",i:"📁",h:"Upload a document or add a file record.",f:[["name","File name","text",0,1],["src","Source","select",["Shared with me","Personal upload"]],["date","Date","date"]]},
+cases:{n:"Case",p:"cases",i:"🎫",h:"Raise a case for HR, IT or Payroll.",f:[["subject","Subject","text",0,1],["cat","Category","select",["HR","IT","Payroll","Admin","Other"]],["desc","Description","textarea"],["status","Status","select",["Open","In Progress","Resolved","Closed"]]]}};
+const XT={leaves:["Days",ld],att:["Hours",r=>ah(r)?ah(r).toFixed(2):"—"]};
+function fld(f,v){const[k,l,t="text",o,r]=f;let h;
+if(t=="textarea")h=`<textarea name="${k}" rows="3">${esc(v)}</textarea>`;
+else if(t=="select"){const op=o=="@types"?D.types.map(x=>x.name):o;h=op.length?`<select name="${k}">${op.map(x=>`<option ${x==v?"selected":""}>${esc(x)}</option>`).join("")}</select>`:`<input name="${k}" value="${esc(v)}" placeholder="Type name (or add leave types first)">`}
+else h=`<input name="${k}" type="${t}" value="${esc(v)}" ${t=="number"?'step="any" min="0"':""}>`;
+return`<label>${l}${r?" *":""}</label>${h}`}
+let ctx;
+function openF(k,id,pre={}){const c=C[k],rec=k=="p"?D.p:id?D[k].find(x=>x.id==id):pre;ctx={k,id};
+$("#mc").innerHTML=`<h3>${id?"Edit":"Add"} ${c.n.toLowerCase()}</h3><form id="fm">${c.f.map(f=>fld(f,rec[f[0]]??"")).join("")}<div class="act">${id&&k!="p"?`<button type="button" class="btn er" id="del">Delete</button>`:""}<span class="grow"></span><button type="button" class="btn" id="x">Cancel</button><button class="btn p">Save</button></div></form>`;$("#md").classList.add("on")}
+const closeM=()=>$("#md").classList.remove("on");
+const tg=v=>`<span class="tag ${/Approved|Resolved|Online|Yes|Closed/.test(v)?"ok":/Pending|Open|Progress|Away/.test(v)?"wn":/Rejected/.test(v)?"er":""}">${esc(v)}</span>`;
+const cell=(k,v)=>/^(status|type|cat|src|bill|etype)$/.test(k)&&v?tg(v):/^(date|from|till|to|joined)$/.test(k)&&v&&!/^\d+$/.test(v)&&/^\d{4}-/.test(v)?fd(v):esc(v||"—");
+const empty=k=>`<div class="empty"><div class="e">${C[k].i}</div><b>No ${C[k].p} yet</b><p>${C[k].h}</p><button class="btn p" data-add="${k}">+ Add ${C[k].n.toLowerCase()}</button></div>`;
+function tbl(k,arr){const c=C[k],a=[...(arr||D[k])].sort((x,y)=>String(y.date||y.from||y.id).localeCompare(String(x.date||x.from||x.id)));if(!a.length)return empty(k);
+const cols=c.f.filter(f=>f[2]!="textarea"),x=XT[k];
+return`<div class="wrap"><table><tr>${cols.map(f=>`<th>${f[1]}</th>`).join("")}${x?`<th>${x[0]}</th>`:""}<th></th></tr>${a.map(r=>`<tr>${cols.map(f=>`<td>${cell(f[0],r[f[0]])}</td>`).join("")}${x?`<td>${x[1](r)}</td>`:""}<td><button class="ic" data-e="${k}:${r.id}" title="Edit">✎</button></td></tr>`).join("")}</table></div>`}
+const head=(t,k,x="")=>`<div class="top"><h3>${t}</h3><div>${x}<button class="btn p" data-add="${k}">+ Add ${C[k].n.toLowerCase()}</button></div></div>`;
+const kpi=(a,b,c)=>`<div class="card kpi"><small>${a}</small><b>${b}</b><small>${c}</small></div>`;
+const used=n=>D.leaves.filter(l=>l.type==n&&l.status!="Rejected").reduce((s,l)=>s+ld(l),0);
+let S={tab:"profile",cy:new Date().getFullYear(),cm:new Date().getMonth(),tf:"all"};
+const V={
+profile(){const p=D.p,r=(a,b)=>`<div class="row"><span class="mu">${a}</span><b>${esc(b||"—")}</b></div>`;
+const tot=D.types.reduce((s,t)=>s+(+t.days||0),0),left=tot-D.types.reduce((s,t)=>s+used(t.name),0);
+const ten=p.joined?Math.max(0,Math.floor((Date.now()-new Date(p.joined))/2629800000)):null;
+const up=D.events.filter(e=>e.date>=today()).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,4);
+return(p.name?"":`<div class="welcome"><div><b>Welcome 👋 Let’s set up your portal</b><div class="mu">Add your profile first, then fill in team, leave types and more. Everything is saved on this device.</div></div><button class="btn p" data-e="p:1">Set up profile</button></div>`)+
+`<div class="grid g4">${kpi("Leave balance",D.types.length?left+" days":"—",D.types.length?"of "+tot+" days":"Add leave types")}${kpi("Hours this week",hrsIn(wk0(),today()).toFixed(1)+" h","From timesheet")}${kpi("Open cases",D.cases.filter(c=>/Open|Progress/.test(c.status)).length,"Cases")}${kpi("Tenure",ten==null?"—":ten+" mo",p.joined?"Since "+fd(p.joined):"Add joining date")}</div>
+<div class="grid g2 mt"><div class="card"><div class="top"><h3>Personal details</h3><button class="btn" data-e="p:1">✎ Edit profile</button></div>${r("Employee ID",p.empId)}${r("Email",p.email)}${r("Mobile",D.s.mob?p.mobile:"Hidden")}${r("Location",p.location)}${r("Education",p.edu)}</div>
+<div class="card"><h3>Work details</h3>${r("Company",p.company)}${r("Department",p.dept)}${r("Designation",p.designation)}${r("Reporting to",p.manager)}${r("Date of joining",p.joined?fd(p.joined):"")}${r("Employment type",p.etype)}</div>
+<div class="card"><h3>Skill set</h3>${(p.skills||"").split(",").filter(x=>x.trim()).map(s=>`<span class="tag" style="margin:0 6px 6px 0">${esc(s.trim())}</span>`).join("")||`<span class="mu">No skills added.</span>`}</div>
+<div class="card"><h3>Upcoming events</h3>${up.map(e=>`<div class="row"><span>${esc(e.title)}</span><span class="mu">${fd(e.date)}</span></div>`).join("")||`<span class="mu">Nothing scheduled.</span>`}</div></div>`},
+team:()=>head("My team","team")+(D.team.length?`<div class="grid g4">${D.team.map(m=>`<div class="card"><div class="mem" data-e="team:${m.id}"><div class="av">${esc(m.name.split(" ").map(x=>x[0]).join("").slice(0,2).toUpperCase())}</div><div class="grow"><b>${esc(m.name)}</b><div class="mu">${esc(m.role||"—")}</div></div></div><div class="top" style="margin:12px 0 0">${tg(m.status||"Offline")}${m.email?`<a href="mailto:${esc(m.email)}" title="Email">✉</a>`:""}</div></div>`).join("")}</div>`:empty("team")),
+calendar(){const y=S.cy,m=S.cm,off=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate();
+let c=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(d=>`<div class="h">${d}</div>`).join("")+"<div class='z'></div>".repeat(off);
+for(let d=1;d<=n;d++){const i=`${y}-${pad(m+1)}-${pad(d)}`;c+=`<div class="${i==today()?"t":""} ${(off+d-1)%7>4?"we":""}" data-day="${i}"><b>${d}</b>${D.events.filter(e=>e.date==i).map(e=>`<span class="ev" data-e="events:${e.id}">${esc((e.time?e.time+" ":"")+e.title)}</span>`).join("")}${D.leaves.filter(l=>l.status!="Rejected"&&l.from<=i&&i<=l.to).map(l=>`<span class="ev lv" data-e="leaves:${l.id}">${esc(l.type)}</span>`).join("")}</div>`}
+return`<div class="card"><div class="top"><h3>${new Date(y,m,1).toLocaleDateString(undefined,{month:"long",year:"numeric"})} <span class="mu">· click a day to add an event, log time or apply leave</span></h3><div><button class="btn" data-m="-1">‹</button> <button class="btn" data-m="0">Today</button> <button class="btn" data-m="1">›</button></div></div><div class="cal">${c}</div></div>`},
+leave:()=>`<div class="card">${head("Leave types &amp; balance","types")}${D.types.length?`<div class="grid g4">${D.types.map(t=>{const u=used(t.name),d=+t.days||0;return`<div class="card kpi"><div class="top" style="margin:0"><small>${esc(t.name)}</small><button class="ic" data-e="types:${t.id}">✎</button></div><b>${d-u} <small>/ ${d}</small></b><div class="bar"><i style="width:${d?Math.min(100,(d-u)/d*100):0}%"></i></div></div>`}).join("")}</div>`:empty("types")}</div><div class="card mt">${head("Applied leaves","leaves")}${tbl("leaves")}</div>`,
+timesheet(){const f=S.tf,L=D.logs.filter(l=>f=="all"||(f=="today"&&l.date==today())||(f=="week"&&l.date>=wk0())||(f=="bill"&&l.bill=="Yes"));
+return`<div class="grid g2"><div class="card"><h3>Timer</h3><div class="clock" id="tm">00:00:00</div><button class="btn ${D.timer?"er":"p"}" id="ts">${D.timer?"Stop &amp; log":"Start"}</button></div>${kpi("Today",hrsIn(today(),today()).toFixed(1)+" h","Week: "+hrsIn(wk0(),today()).toFixed(1)+" h")}</div>
+<div class="card mt">${head("Time logs","logs",`<select id="tf" style="width:auto;margin-right:8px;display:inline-block">${[["all","All"],["today","Today"],["week","This week"],["bill","Billable"]].map(o=>`<option value="${o[0]}" ${f==o[0]?"selected":""}>${o[1]}</option>`).join("")}</select>`)}${tbl("logs",L)}</div>`},
+attendance(){const o=D.att.some(a=>a.in&&!a.out),d=[];for(let i=6;i>=0;i--){const x=new Date();x.setDate(x.getDate()-i);d.push([iso(x),x.toLocaleDateString(undefined,{weekday:"short"})])}
+const h=d.map(x=>D.att.filter(a=>a.date==x[0]).reduce((s,a)=>s+ah(a),0));
+return`<div class="grid g2"><div class="card"><h3>Web check-in</h3><div class="clock">${o?"Checked in":"Not checked in"}</div><button class="btn ${o?"er":"ok"}" id="chk2">${o?"Check-out":"Check-in"}</button></div>
+<div class="card"><h3>Last 7 days · ${h.reduce((a,b)=>a+b,0).toFixed(1)} h</h3><div class="bars">${h.map((v,i)=>`<div style="height:${v*11}px"><span>${d[i][1]}</span></div>`).join("")}</div></div></div><div class="card mt">${head("Attendance log","att")}${tbl("att")}</div>`},
+delegation:()=>`<div class="card">${head("Approval delegations","dele")}${tbl("dele")}</div>`,
+files:()=>`<div class="card">${head("Files","files",`<button class="btn" id="up" style="margin-right:8px">⬆ Upload</button>`)}${tbl("files")}</div>`,
+cases:()=>`<div class="card">${head("My cases","cases")}${tbl("cases")}</div>`,
+settings:()=>`<div class="grid g2"><div class="card"><h3>Locale settings</h3><label>Language</label><select data-k="lang">${["English","اردو","Español","Français"].map(x=>`<option ${D.s.lang==x?"selected":""}>${x}</option>`).join("")}</select><label>Time zone</label><input data-k="tz" value="${esc(D.s.tz||Intl.DateTimeFormat().resolvedOptions().timeZone)}"></div>
+<div class="card"><h3>Permissions</h3>${[["bd","Show my birthday"],["wa","Show work anniversary"],["mob","Show my mobile number"]].map(p=>`<div class="tg"><span>${p[1]}</span><input type="checkbox" data-k="${p[0]}" ${D.s[p[0]]?"checked":""}></div>`).join("")}</div>
+<div class="card"><h3>Theme settings</h3><label>Theme colour</label>${["#4f46e5","#0ea5e9","#16a34a","#e11d48","#d97706"].map(c=>`<span class="sw" style="background:${c}" data-c="${c}"></span>`).join("")}<input type="color" data-k="ac" value="${D.s.ac}" style="width:48px;height:34px;padding:2px;vertical-align:middle"><label>Menu colour</label><input type="color" data-k="menu" value="${D.s.menu||"#12162b"}" style="width:48px;height:34px;padding:2px"><label>Appearance</label><select data-k="mode">${[["","System"],["light","Light"],["dark","Dark"]].map(o=>`<option value="${o[0]}" ${D.s.mode==o[0]?"selected":""}>${o[1]}</option>`).join("")}</select></div>
+<div class="card"><h3>Your data</h3><p class="mu">Stored only on this device. Export a backup or move it to another device.</p><button class="btn" id="ex">⬇ Export JSON</button> <button class="btn" id="imp">⬆ Import</button> <button class="btn er" id="rs">${S.rc?"Click again to erase all":"Reset all data"}</button></div></div>`};
+function theme(){const r=document.documentElement,s=D.s;r.style.setProperty("--ac",s.ac);s.menu?r.style.setProperty("--side",s.menu):r.style.removeProperty("--side");s.mode?r.dataset.theme=s.mode:delete r.dataset.theme}
+function render(){theme();const p=D.p,o=D.att.some(a=>a.in&&!a.out);
+$("#nm").textContent=p.name||"Set up your profile";$("#sb").textContent=[p.designation,p.company,p.location].filter(Boolean).join(" · ")||"Your details appear here";
+const av=$("#av");av.style.backgroundImage=p.photo?`url(${p.photo})`:"";av.textContent=p.photo?"":(p.name||"?").split(" ").map(x=>x[0]).join("").slice(0,2).toUpperCase();
+$("#chk").textContent=o?"Check-out":"Check-in";$("#chk").className="btn "+(o?"er":"ok");
+const b=(t,c)=>`<button data-t="${t[0]}" class="${S.tab==t[0]?"on":""} ${c||""}"><span class="i">${t[2]}</span>${t[1]}</button>`;
+$("#nav").innerHTML=T.slice(0,9).map(t=>b(t)).join("");$("#nav2").innerHTML=b(T[9]);
+$("#tabs").innerHTML=T.map(t=>`<button data-t="${t[0]}" class="${S.tab==t[0]?"on":""}">${t[1]}</button>`).join("");
+$("#pg").innerHTML=V[S.tab]()}
+function chk(){const o=D.att.find(a=>a.in&&!a.out);if(o)o.out=nowT();else D.att.push({id:uid(),date:today(),in:nowT(),out:""});save();render();toast(o?"Checked out":"Checked in")}
+document.addEventListener("click",e=>{const g=s=>e.target.closest(s),id=e.target.id;let t;
+if(id=="md"||id=="x")closeM();
+else if(t=g("[data-t]")){S.tab=t.dataset.t;render()}
+else if(t=g("[data-add]")){const k=t.dataset.add;openF(k,null,k=="leaves"?{status:"Pending"}:k=="logs"||k=="att"?{date:today()}:{})}
+else if(t=g("[data-e]")){const[k,i]=t.dataset.e.split(":");openF(k,i)}
+else if(t=g("[data-pick]")){const k=t.dataset.pick,d=t.dataset.iso;openF(k,null,k=="leaves"?{from:d,to:d,status:"Pending"}:{date:d})}
+else if(t=g("[data-day]")){const d=t.dataset.day;$("#mc").innerHTML=`<h3>${fd(d)}</h3><p class="mu">What would you like to add?</p><div class="grid">${[["events","📅 Add event"],["logs","⏱ Log time"],["leaves","🌴 Apply leave"]].map(x=>`<button class="btn" data-pick="${x[0]}" data-iso="${d}">${x[1]}</button>`).join("")}</div>`;$("#md").classList.add("on")}
+else if(t=g("[data-m]")){const v=+t.dataset.m,d=v?new Date(S.cy,S.cm+v,1):new Date();S.cy=d.getFullYear();S.cm=d.getMonth();render()}
+else if(t=g("[data-c]")){D.s.ac=t.dataset.c;save();render()}
+else if(id=="del"){D[ctx.k]=D[ctx.k].filter(x=>x.id!=ctx.id);save();closeM();render();toast("Deleted")}
+else if(id=="chk"||id=="chk2")chk();
+else if(id=="ts"){if(D.timer){const h=((Date.now()-D.timer)/36e5).toFixed(2);D.timer=0;save();render();openF("logs",null,{date:today(),hours:h})}else{D.timer=Date.now();save();render()}}
+else if(id=="av"||g("#av"))$("#ph").click();
+else if(id=="up")$("#fi").click();else if(id=="imp")$("#im").click();
+else if(id=="ex"){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(D,null,2)],{type:"application/json"}));a.download="ess-backup-"+today()+".json";a.click();toast("Backup exported")}
+else if(id=="rs"){if(S.rc){D=base();save();S.rc=0;render();toast("All data erased")}else{S.rc=1;render()}}});
+document.addEventListener("submit",e=>{e.preventDefault();const{k,id}=ctx,c=C[k],v=Object.fromEntries(new FormData(e.target));
+for(const f of c.f)if(f[4]&&!String(v[f[0]]||"").trim())return toast("Please fill the required fields *");
+if(k=="leaves"&&v.to<v.from)return toast("“To” date is before “From” date");
+if(k=="p")Object.assign(D.p,v);else if(id)Object.assign(D[k].find(x=>x.id==id),v);else D[k].push({id:uid(),...v});
+save();closeM();render();toast("Saved")});
+document.addEventListener("change",e=>{const t=e.target,k=t.dataset.k;
+if(k){D.s[k]=t.type=="checkbox"?t.checked:t.value;save();render()}
+else if(t.id=="tf"){S.tf=t.value;render()}
+else if(t.id=="fi"&&t.files[0]){const f=t.files[0];D.files.push({id:uid(),name:f.name,src:"Personal upload",date:today()});save();render();toast("File recorded: "+f.name);t.value=""}
+else if(t.id=="ph"&&t.files[0]){const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement("canvas"),s=Math.min(im.width,im.height);c.width=c.height=160;c.getContext("2d").drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,160,160);D.p.photo=c.toDataURL("image/jpeg",.85);save();render()};im.src=r.result};r.readAsDataURL(t.files[0]);t.value=""}
+else if(t.id=="im"&&t.files[0]){const r=new FileReader();r.onload=()=>{try{D=Object.assign(base(),JSON.parse(r.result));D.s=Object.assign(base().s,D.s);save();render();toast("Data imported")}catch(x){toast("Invalid backup file")}};r.readAsText(t.files[0]);t.value=""}});
+setInterval(()=>{const el=$("#tm");if(el&&D.timer){const s=Math.floor((Date.now()-D.timer)/1e3);el.textContent=pad(s/3600|0)+":"+pad(s/60%60|0)+":"+pad(s%60)}},1000);
+render();
+</script></body></html>

@@ -1,0 +1,9 @@
+{
+  "name": "ess-portal",
+  "version": "1.0.0",
+  "description": "Employee Self-Service Portal",
+  "main": "main.js",
+  "scripts": { "start": "electron .", "dist": "electron-builder" },
+  "devDependencies": { "electron": "^33.0.0", "electron-builder": "^25.0.0" },
+  "build": { "appId": "com.ess.portal", "productName": "ESS Portal", "files": ["main.js", "index.html"], "win": { "target": "nsis" }, "mac": { "target": "dmg" }, "linux": { "target": "AppImage" } }
+}

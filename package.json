@@ -3,13 +3,42 @@
   "version": "1.2.0",
   "description": "Vantage ESS - Employee Self-Service Platform",
   "main": "main.js",
-  "scripts": { "start": "electron .", "dist": "electron-builder" },
-  "dependencies": { "electron-updater": "^6.3.0" },
-  "devDependencies": { "electron": "^33.0.0", "electron-builder": "^25.0.0" },
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.0"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  },
   "build": {
-    "appId": "com.vantage.ess", "productName": "Vantage ESS",
-    "files": ["main.js", "index.html"],
-    "publish": [{ "provider": "github", "owner": "YOUR_GITHUB_USERNAME", "repo": "vantage-ess" }],
-    "win": { "target": "nsis" }, "mac": { "target": "dmg" }, "linux": { "target": "AppImage" }
+    "appId": "com.vantage.ess",
+    "productName": "Vantage ESS",
+    "files": [
+      "main.js",
+      "index.html"
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "YOUR_GITHUB_USERNAME",
+        "repo": "vantage-ess"
+      }
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    },
+    "directories": {
+      "buildResources": "build"
+    }
   }
 }

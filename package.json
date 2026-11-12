@@ -1,9 +1,15 @@
 {
-  "name": "ess-portal",
-  "version": "1.0.0",
-  "description": "Employee Self-Service Portal",
+  "name": "vantage-ess",
+  "version": "1.1.0",
+  "description": "Vantage ESS - Employee Self-Service Platform",
   "main": "main.js",
   "scripts": { "start": "electron .", "dist": "electron-builder" },
+  "dependencies": { "electron-updater": "^6.3.0" },
   "devDependencies": { "electron": "^33.0.0", "electron-builder": "^25.0.0" },
-  "build": { "appId": "com.ess.portal", "productName": "ESS Portal", "files": ["main.js", "index.html"], "win": { "target": "nsis" }, "mac": { "target": "dmg" }, "linux": { "target": "AppImage" } }
+  "build": {
+    "appId": "com.vantage.ess", "productName": "Vantage ESS",
+    "files": ["main.js", "index.html"],
+    "publish": [{ "provider": "github", "owner": "YOUR_GITHUB_USERNAME", "repo": "vantage-ess" }],
+    "win": { "target": "nsis" }, "mac": { "target": "dmg" }, "linux": { "target": "AppImage" }
+  }
 }

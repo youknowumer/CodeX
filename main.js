@@ -8,7 +8,7 @@ const ext = (u) => { if (/^https?:\/\//.test(u)) shell.openExternal(u); };
 function createWindow() {
   win = new BrowserWindow({
     width: 1360, height: 860, minWidth: 980, minHeight: 640, title: 'Vantage ESS',
-    backgroundColor: '#0a0d1f', autoHideMenuBar: true, icon: path.join(__dirname, 'build', 'icon.png'),
+    backgroundColor: '#f2f2f7', autoHideMenuBar: true, icon: path.join(__dirname, 'build', 'icon.png'),
     webPreferences: { preload: path.join(__dirname, 'preload.js'), contextIsolation: true, nodeIntegration: false, sandbox: true, devTools: !app.isPackaged }
   });
   win.loadFile('index.html');
@@ -21,7 +21,7 @@ ipcMain.handle('http', async (_e, q) => {
   if (!/^https?:$/.test(u.protocol)) throw new Error('Only http(s) URLs are allowed');
   const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), 30000);
   try {
-    const r = await fetch(u, { method: /^(GET|POST)$/.test(q.method) ? q.method : 'GET', headers: q.headers || {}, body: q.body, signal: ctl.signal });
+    const r = await fetch(u, { method: /^(GET|POST|PUT|PATCH|DELETE)$/.test(q.method) ? q.method : 'GET', headers: q.headers || {}, body: q.body, signal: ctl.signal });
     return { status: r.status, ok: r.ok, text: (await r.text()).slice(0, 15e6) };
   } catch (e) { throw new Error(e.name === 'AbortError' ? 'Request timed out' : 'Network error: ' + (e.cause && e.cause.code || e.message)); }
   finally { clearTimeout(tm); }

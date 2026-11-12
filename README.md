@@ -1,7 +1,13 @@
-# Vantage ESS v3.0.0
+# Vantage ESS v4.0.0
 Employee Self-Service Platform: Dashboard, Profile, Team, Calendar, Leave, Timesheet, Attendance, Tasks, Expenses, Holidays, Delegation, Files, Cases, Reports.
 
-## What is new in 3.0
+## What is new in 4.0
+- **iOS design**: frosted sidebar, large titles, sheet dialogs, iOS switches and system colours (light and dark), spring motion, count-up numbers, reduced-motion support
+- **Connections**: Odoo 19+ (JSON-2), Odoo JSON-RPC, ERPNext, SAP OData, Dynamics 365, Shopify, Airtable, Supabase, Google Sheets CSV and any REST API. Automatic paging, retry with backoff, same-origin paging links, scheduled auto-sync, health panel
+- **Outgoing webhook**: signed (HMAC-SHA256) events for every create/update/delete and check-in/out, with an offline retry queue
+- **Business records** module, calendar .ics export, offline indicator
+
+## What was new in 3.0
 - **ERP connections**: ERPNext, Odoo, SAP OData, Dynamics 365, any REST/JSON API, plus CSV/JSON import. Read-only sync with field-mapping JSON; records upsert by ERP id
 - **Home widgets**: add, move, resize, remove; custom KPI, chart, list and note widgets from any data (including synced ERP data)
 - **Report builder**: data, group, measure, date range; save, pin to Home, CSV, print/PDF

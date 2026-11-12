@@ -1,6 +1,6 @@
 {
   "name": "vantage-ess",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Vantage ESS - Employee Self-Service Platform",
   "main": "main.js",
   "scripts": {

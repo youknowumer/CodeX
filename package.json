@@ -1,12 +1,12 @@
 {
   "name": "vantage-ess",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Vantage ESS - Employee Self-Service Platform",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder",
-    "check": "node --check main.js"
+    "check": "node --check main.js && node --check preload.js"
   },
   "dependencies": {
     "electron-updater": "^6.3.0"
@@ -20,6 +20,7 @@
     "productName": "Vantage ESS",
     "files": [
       "main.js",
+      "preload.js",
       "index.html",
       "build/icon.png"
     ],

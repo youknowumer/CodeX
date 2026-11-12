@@ -1,7 +1,14 @@
-# Vantage ESS v2.0.0
+# Vantage ESS v3.0.0
 Employee Self-Service Platform: Dashboard, Profile, Team, Calendar, Leave, Timesheet, Attendance, Tasks, Expenses, Holidays, Delegation, Files, Cases, Reports.
 
-## What is new in 2.0
+## What is new in 3.0
+- **ERP connections**: ERPNext, Odoo, SAP OData, Dynamics 365, any REST/JSON API, plus CSV/JSON import. Read-only sync with field-mapping JSON; records upsert by ERP id
+- **Home widgets**: add, move, resize, remove; custom KPI, chart, list and note widgets from any data (including synced ERP data)
+- **Report builder**: data, group, measure, date range; save, pin to Home, CSV, print/PDF
+- **Theme gallery** with corner style and font
+- Desktop app proxies ERP calls through the main process (no CORS); secrets are excluded from backups
+
+## What was new in 2.0
 - Dashboard with KPIs, 7-day hours chart, leave usage and a Needs-attention list
 - Tasks board, Expense claims, Company holidays, Reports (CSV export, print/PDF, activity log)
 - Working-day leave maths (weekends and holidays skipped), overlap and balance checks
@@ -38,3 +45,6 @@ Build each OS installer on that OS.
 
 ## Your data
 Stored only on your device. Use Settings > Export JSON before updating or changing computers.
+
+## Connecting an ERP
+Connections > Add connection. Pick the system, enter URL and credentials (Odoo also needs the database name). Edit the mapping JSON if your fields differ, then Test and Sync now. Sync is pull-only. In a browser, ERPs that do not send CORS headers will be blocked; use the desktop app. OAuth login flows are not built in: paste a bearer/API token.

@@ -1,0 +1,16 @@
+{
+  "name": "Vantage ESS",
+  "short_name": "Vantage",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0d1f",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "build/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

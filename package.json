@@ -1,11 +1,12 @@
 {
   "name": "vantage-ess",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Vantage ESS - Employee Self-Service Platform",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "check": "node --check main.js"
   },
   "dependencies": {
     "electron-updater": "^6.3.0"
@@ -19,7 +20,8 @@
     "productName": "Vantage ESS",
     "files": [
       "main.js",
-      "index.html"
+      "index.html",
+      "build/icon.png"
     ],
     "publish": [
       {
@@ -40,5 +42,8 @@
     "directories": {
       "buildResources": "build"
     }
-  }
+  },
+  "author": "Vantage ESS",
+  "license": "UNLICENSED",
+  "private": true
 }

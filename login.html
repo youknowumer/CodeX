@@ -34,7 +34,7 @@ html,body{overflow:hidden}body{position:fixed;inset:0;height:100dvh}.wrap{max-he
 <ul><li>🏢 One organization, many users</li><li>🛡 Admin creates and manages accounts</li><li>🔌 Odoo, ERPNext, SAP and REST sync</li></ul></div>
 <div class="main">
 <div class="top"><a href="index.html">‹ Back to home</a><button class="tg" id="th" title="Light / dark" style="display:grid;place-items:center;font-size:17px;line-height:1">☾</button></div>
-<div id="tabs" style="display:none!important"></div>
+<div id="tabs"><div class="seg" id="seg"><i></i><button type="button" data-t="in">Sign in</button><button type="button" data-t="up">Create account</button></div></div>
 
 <form class="pane on" id="p-in" autocomplete="on"><h1 id="wb">Welcome back</h1><p class="sub" id="sb1">Sign in to open your portal.</p>
 <div id="wc" style="display:none;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:var(--in);margin-bottom:4px"><b id="wa" style="width:40px;height:40px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font-size:14px"></b><span style="flex:1;min-width:0"><b id="wn1" style="display:block;line-height:1.25"></b><small class="mu" id="we" style="color:var(--mu)"></small></span><button type="button" class="lnk" id="nu">Not you?</button></div>
@@ -43,12 +43,12 @@ html,body{overflow:hidden}body{position:fixed;inset:0;height:100dvh}.wrap{max-he
 <div class="row"><label class="sw"><input type="checkbox" id="rm1" checked><b></b>Keep me signed in</label><button type="button" class="lnk" data-t="fg">Forgot password?</button></div>
 <div class="er" id="x1"></div><button class="btn" id="b1">Sign in</button></form>
 
-<form class="pane" id="p-up" autocomplete="on"><h1>Set up your organization</h1><p class="sub">Create the organization and its administrator. The admin adds everyone else from inside the portal.</p>
-<label for="o2">Organization name</label><div class="f"><input id="o2" type="text" autocomplete="organization" required></div>
-<label for="n2">Administrator name</label><div class="f"><input id="n2" type="text" autocomplete="name" required></div>
-<label for="e2">Administrator email</label><div class="f"><input id="e2" type="email" autocomplete="username" required></div>
+<form class="pane" id="p-up" autocomplete="on"><h1 id="h2">Set up your organization</h1><p class="sub" id="s2">Create the organization and its administrator. The admin adds everyone else from inside the portal.</p>
+<div id="og"><label for="o2">Organization name</label><div class="f"><input id="o2" type="text" autocomplete="organization"></div></div>
+<label for="n2" id="l2">Administrator name</label><div class="f"><input id="n2" type="text" autocomplete="name" required></div>
+<label for="e2" id="m2">Administrator email</label><div class="f"><input id="e2" type="email" autocomplete="username" required></div>
 <label for="w2">Password</label><div class="f"><input id="w2" type="password" autocomplete="new-password" required><button type="button" class="eye" data-eye="w2">👁</button></div><div class="mt" id="mt"><i></i><i></i><i></i><i></i></div><div class="ml" id="ml">Use 8+ characters</div>
-<div class="er" id="x2"></div><button class="btn" id="b2">Create organization</button></form>
+<div id="dg" style="display:none"><label for="d2">Department (optional)</label><div class="f"><input id="d2" type="text"></div></div><div class="er" id="x2"></div><button class="btn" id="b2">Create organization</button></form>
 
 <form class="pane" id="p-fg"><h1>Reset password</h1><p class="sub">Administrators can reset with their recovery code. Other users: ask your administrator to reset your password.</p>
 <label for="e3">Email</label><div class="f"><input id="e3" type="email" required></div>
@@ -60,24 +60,28 @@ html,body{overflow:hidden}body{position:fixed;inset:0;height:100dvh}.wrap{max-he
 <label for="w4">New password</label><div class="f"><input id="w4" type="password" autocomplete="new-password" required><button type="button" class="eye" data-eye="w4">👁</button></div>
 <div class="er" id="x4"></div><button class="btn" id="b4">Save and continue</button></form>
 
+<div class="pane" id="p-ok"><h1>Request sent</h1><p class="sub">Your administrator will review it. You can sign in once it is approved.</p><div class="rc ok" style="font-size:44px">✓</div><button class="btn" data-t="in">Back to sign in</button></div>
+
 <div class="pane" id="p-rc"><h1>Save your recovery code</h1><p class="sub">It is the only way to reset your password. It is shown once.</p><div class="rc" id="rcv"></div>
 <div style="display:flex;gap:10px"><button class="btn g" id="cp">Copy</button><button class="btn g" id="dl">Download</button></div><button class="btn" id="go">I saved it, open portal</button></div>
-</div><small style="position:absolute;bottom:10px;right:16px;color:var(--mu);font-size:11px;opacity:.7">v4.3.0</small></div>
-<script src="auth.js?v=4.3.0"></script>
+</div><small style="position:absolute;bottom:10px;right:16px;color:var(--mu);font-size:11px;opacity:.7">v4.4.0</small></div>
+<script src="auth.js?v=4.4.0"></script>
 <script>
 const $=s=>document.querySelector(s),q=new URLSearchParams(location.search),NEXT=(q.get("next")||"app.html").replace(/[^\w.\-]/g,"")||"app.html";
 let T=localStorage.getItem("vantage.theme");if(T)document.documentElement.dataset.theme=T;
 const ORG=AUTH.org();if(ORG&&ORG.color)document.documentElement.style.setProperty("--ac",ORG.color);const LU=(()=>{try{return JSON.parse(localStorage.getItem("vantage.last"))}catch(e){return null}})();if(LU&&ORG){$("#e1").value=LU.email;$("#wc").style.display="flex";const EF=[$("label[for=e1]"),$("#e1").parentNode],eh=v=>EF.forEach(x=>x.style.display=v?"none":"");eh(1);$("#wa").textContent=LU.name.split(" ").map(x=>x[0]).join("").slice(0,2).toUpperCase();$("#wn1").textContent="Welcome back, "+LU.name.split(" ")[0];$("#we").textContent=LU.email;$("#nu").onclick=()=>{eh(0);$("#wc").style.display="none";$("#e1").value="";$("#e1").focus();localStorage.removeItem("vantage.last")};setTimeout(()=>$("#w1").focus(),80)}
 if(ORG){$("#sb1").textContent="Sign in to "+ORG.name+".";$("#wb").textContent=LU?"Hello again":"Welcome to "+ORG.name}
+const SU=ORG&&ORG.signup!==false;if(ORG){$("#h2").textContent="Request an account";$("#s2").textContent="Fill in your details. Your administrator will approve the request.";$("#og").style.display="none";$("#o2").required=false;$("#l2").textContent="Full name";$("#m2").textContent="Work email";$("#dg").style.display="";$("#b2").textContent="Request access"}else $("#o2").required=true;
+$("#tabs").style.display=SU?"":"none";
 $("#th").onclick=()=>{const d=document.documentElement,dark=d.dataset.theme?d.dataset.theme=="dark":matchMedia("(prefers-color-scheme:dark)").matches;d.dataset.theme=dark?"light":"dark";localStorage.setItem("vantage.theme",d.dataset.theme)};
 const go=()=>{document.body.style.transition="opacity .35s,transform .35s";document.body.style.opacity=0;document.body.style.transform="scale(1.02)";setTimeout(()=>location.replace(NEXT),320)};
-function show(id){document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on",p.id=="p-"+id));$("#tabs").style.display=id=="in"||id=="up"?"":"none";const f=$("#p-"+id+" input");f&&setTimeout(()=>f.focus(),60)}
+function show(id){document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on",p.id=="p-"+id));$("#tabs").style.display=(id=="in"||id=="up")&&SU?"":"none";if(id=="in"||id=="up")$("#seg").classList.toggle("r",id=="up");const f=$("#p-"+id+" input");f&&setTimeout(()=>f.focus(),60)}
 document.addEventListener("click",e=>{const t=e.target.closest("[data-t]");if(t){e.preventDefault();show(t.dataset.t)}const y=e.target.closest("[data-eye]");if(y){const i=$("#"+y.dataset.eye);i.type=i.type=="password"?"text":"password"}});
 document.addEventListener("keyup",e=>{if(e.target.type=="password"&&e.getModifierState)$("#c1").style.display=e.getModifierState("CapsLock")?"block":"none"});
 $("#w2").oninput=e=>{const s=AUTH.strength(e.target.value);document.querySelectorAll("#mt i").forEach((i,k)=>i.style.background=k<s?["#ff3b30","#ff9500","#ffcc00","#34c759"][s-1]:"");$("#ml").textContent=e.target.value?["Too weak","Weak","Okay","Good","Strong"][s]:"Use 8+ characters"};
 async function run(form,btn,err,fn){form.addEventListener("submit",async e=>{e.preventDefault();const b=$(btn),o=b.innerHTML;b.disabled=true;b.innerHTML='<i class="sp"></i>';$(err).textContent="";try{await fn()}catch(x){$(err).textContent=x.message;form.classList.remove("sh");void form.offsetWidth;form.classList.add("sh")}b.disabled=false;b.innerHTML=o})}
 run($("#p-in"),"#b1","#x1",async()=>{const u=await AUTH.login($("#e1").value,$("#w1").value,$("#rm1").checked);if(u.must){TMP=$("#w1").value;show("ch")}else go()});
-run($("#p-up"),"#b2","#x2",async()=>{const r=await AUTH.setup($("#o2").value,$("#n2").value,$("#e2").value,$("#w2").value);showCode(r.code)});
+run($("#p-up"),"#b2","#x2",async()=>{if(ORG){await AUTH.requestAccess($("#n2").value,$("#e2").value,$("#w2").value,$("#d2").value);$("#p-up").reset();show("ok");return}const r=await AUTH.setup($("#o2").value,$("#n2").value,$("#e2").value,$("#w2").value);showCode(r.code)});
 let TMP="";run($("#p-ch"),"#b4","#x4",async()=>{await AUTH.changePw(TMP,$("#w4").value);go()});
 run($("#p-fg"),"#b3","#x3",async()=>{const r=await AUTH.recover($("#e3").value,$("#r3").value,$("#w3").value);showCode(r.code,1)});
 function showCode(c,reset){$("#rcv").textContent=c;$("#go").textContent=reset?"Password reset, sign in":"I saved it, open portal";$("#go").onclick=()=>reset?(AUTH.out(1),show("in")):go();show("rc");$("#tabs").style.display="none"}
@@ -85,5 +89,5 @@ $("#cp").onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText($("#rcv
 $("#dl").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["Vantage ESS recovery code: "+$("#rcv").textContent+"\nKeep this somewhere safe.\n"],{type:"text/plain"}));a.download="vantage-recovery-code.txt";a.click()};
 if(q.get("out"))$("#wb").textContent="You are signed out";
 const s=AUTH.session();if(s&&s.must&&!q.get("out")){TMP="";$("#p-ch .sub").textContent="Enter your temporary password, then choose a new one.";$("#p-ch").insertAdjacentHTML("afterbegin",'<label for="w5">Temporary password</label><div class="f"><input id="w5" type="password" required></div>');$("#p-ch").onsubmit=null;document.getElementById("p-ch").addEventListener("submit",()=>{TMP=$("#w5")?$("#w5").value:TMP},true);show("ch")}else if(s&&!q.get("out")){$("#wb").textContent="Welcome back, "+s.name.split(" ")[0];$("#p-in .sub").innerHTML='You are already signed in. <a class="lnk" href="'+NEXT+'">Open portal ›</a>'}
-if(!AUTH.org())show("up");else if(!(s&&s.must&&!q.get("out")))show("in");
+if(!AUTH.org()||(q.get("mode")=="up"&&SU))show("up");else if(!(s&&s.must&&!q.get("out")))show("in");
 </script></body></html>

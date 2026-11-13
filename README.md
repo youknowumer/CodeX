@@ -1,7 +1,10 @@
-# Vantage ESS v4.3.0
+# Vantage ESS v4.4.0
 Employee Self-Service Platform: Dashboard, Profile, Team, Calendar, Leave, Timesheet, Attendance, Tasks, Expenses, Holidays, Delegation, Files, Cases, Reports.
 
-## What is new in 4.3
+## What is new in 4.4
+- **Create account / sign-up**: the login page has a Create account tab. A new person requests access; the admin approves (or deletes) the request in Users. The admin can switch sign-up requests off in Settings > Organization
+
+## What was new in 4.3
 - **Personalised**: the admin sets the organization name and brand colour (Settings > Organization) and it becomes the default look for everyone; sign-in remembers the last user and greets them by name; Settings > Account shows role and last sign-in
 - **Alignment pass**: uniform top-bar control heights, consistent sidebar icons (Users now has one), aligned colour swatches, tidy Users table
 

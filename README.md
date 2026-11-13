@@ -1,7 +1,14 @@
-# Vantage ESS v4.1.0
+# Vantage ESS v4.2.0
 Employee Self-Service Platform: Dashboard, Profile, Team, Calendar, Leave, Timesheet, Attendance, Tasks, Expenses, Holidays, Delegation, Files, Cases, Reports.
 
-## What is new in 4.1
+## What is new in 4.2
+- **Organization setup**: the first visit to `login.html` asks for the organization name and creates its administrator (with a one-time recovery code). Public sign-up is closed
+- **Admin creates users**: Administration > Users. Add users with role (admin / manager / employee) and department, auto-generated temporary password (forced change at first sign-in), edit, reset password, disable/enable, delete. At least one active admin is always kept
+- **Roles**: admins see Users; employees get a focused menu without ERP connections
+- **Cleaner portal**: menu groups collapse (state remembered) and can be filtered; on phones the menu is a slide-in drawer instead of a crowded tab bar
+- Each user has a private workspace; the first admin keeps the data that existed before. Users get their profile pre-filled from the account
+
+## What was new in 4.1
 - **Flow**: `index.html` (landing) → `login.html` (sign in / create account / reset) → `app.html` (portal). Opening `app.html` directly without a session redirects to login
 - **Accounts**: PBKDF2-SHA256 password hashes, one-time recovery code, lockout after 5 wrong attempts, keep-me-signed-in (30 days) or session-only, sign out in the top bar, change password in Settings > Account
 - **Per-account data**: the first account adopts your existing portal data; later accounts get their own workspace

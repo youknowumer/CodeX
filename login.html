@@ -28,29 +28,33 @@ label{display:block;font-size:12.5px;font-weight:600;color:var(--mu);margin:13px
 <div class="wrap">
 <div class="side"><div class="lg"><i><svg viewBox="0 0 64 64" width="22" height="22"><path d="M18 20l14 26 14-26" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></i>Vantage ESS</div>
 <h2>Your whole workday,<br>one secure place.</h2><p>Leave, time, attendance, tasks, expenses and ERP data in a single workspace.</p>
-<ul><li>🔌 Odoo, ERPNext, SAP, Dynamics and REST sync</li><li>📊 Live dashboard, reports and widgets</li><li>🔒 Your data stays on your device</li></ul></div>
+<ul><li>🏢 One organization, many users</li><li>🛡 Admin creates and manages accounts</li><li>🔌 Odoo, ERPNext, SAP and REST sync</li></ul></div>
 <div class="main">
 <div class="top"><a href="index.html">‹ Back to home</a><button class="tg" id="th" title="Light / dark">◐</button></div>
-<div id="tabs"><div class="seg" id="seg"><i></i><button data-t="in">Sign in</button><button data-t="up">Create account</button></div></div>
+<div id="tabs" style="display:none!important"></div>
 
-<form class="pane on" id="p-in" autocomplete="on"><h1 id="wb">Welcome back</h1><p class="sub">Sign in to open your portal.</p>
+<form class="pane on" id="p-in" autocomplete="on"><h1 id="wb">Welcome back</h1><p class="sub" id="sb1">Sign in to open your portal.</p>
 <label for="e1">Email</label><div class="f"><input id="e1" type="email" autocomplete="username" required></div>
 <label for="w1">Password</label><div class="f"><input id="w1" type="password" autocomplete="current-password" required><button type="button" class="eye" data-eye="w1">👁</button></div><div class="cap" id="c1">Caps Lock is on</div>
 <div class="row"><label class="sw"><input type="checkbox" id="rm1" checked><b></b>Keep me signed in</label><button type="button" class="lnk" data-t="fg">Forgot password?</button></div>
 <div class="er" id="x1"></div><button class="btn" id="b1">Sign in</button></form>
 
-<form class="pane" id="p-up" autocomplete="on"><h1>Create your account</h1><p class="sub">Takes ten seconds. Stored on this device.</p>
-<label for="n2">Full name</label><div class="f"><input id="n2" type="text" autocomplete="name" required></div>
-<label for="e2">Email</label><div class="f"><input id="e2" type="email" autocomplete="username" required></div>
+<form class="pane" id="p-up" autocomplete="on"><h1>Set up your organization</h1><p class="sub">Create the organization and its administrator. The admin adds everyone else from inside the portal.</p>
+<label for="o2">Organization name</label><div class="f"><input id="o2" type="text" autocomplete="organization" required></div>
+<label for="n2">Administrator name</label><div class="f"><input id="n2" type="text" autocomplete="name" required></div>
+<label for="e2">Administrator email</label><div class="f"><input id="e2" type="email" autocomplete="username" required></div>
 <label for="w2">Password</label><div class="f"><input id="w2" type="password" autocomplete="new-password" required><button type="button" class="eye" data-eye="w2">👁</button></div><div class="mt" id="mt"><i></i><i></i><i></i><i></i></div><div class="ml" id="ml">Use 8+ characters</div>
-<div class="row"><label class="sw"><input type="checkbox" id="rm2" checked><b></b>Keep me signed in</label></div>
-<div class="er" id="x2"></div><button class="btn" id="b2">Create account</button></form>
+<div class="er" id="x2"></div><button class="btn" id="b2">Create organization</button></form>
 
-<form class="pane" id="p-fg"><h1>Reset password</h1><p class="sub">Use the recovery code you received when you created the account.</p>
+<form class="pane" id="p-fg"><h1>Reset password</h1><p class="sub">Administrators can reset with their recovery code. Other users: ask your administrator to reset your password.</p>
 <label for="e3">Email</label><div class="f"><input id="e3" type="email" required></div>
 <label for="r3">Recovery code</label><div class="f"><input id="r3" type="text" placeholder="XXXX-XXXX-XXXX" autocomplete="off" required></div>
 <label for="w3">New password</label><div class="f"><input id="w3" type="password" autocomplete="new-password" required><button type="button" class="eye" data-eye="w3">👁</button></div>
 <div class="er" id="x3"></div><button class="btn" id="b3">Reset password</button><button type="button" class="btn g" data-t="in">Back to sign in</button></form>
+
+<form class="pane" id="p-ch"><h1>Choose a new password</h1><p class="sub">Your administrator gave you a temporary password. Set your own to continue.</p>
+<label for="w4">New password</label><div class="f"><input id="w4" type="password" autocomplete="new-password" required><button type="button" class="eye" data-eye="w4">👁</button></div>
+<div class="er" id="x4"></div><button class="btn" id="b4">Save and continue</button></form>
 
 <div class="pane" id="p-rc"><h1>Save your recovery code</h1><p class="sub">It is the only way to reset your password. It is shown once.</p><div class="rc" id="rcv"></div>
 <div style="display:flex;gap:10px"><button class="btn g" id="cp">Copy</button><button class="btn g" id="dl">Download</button></div><button class="btn" id="go">I saved it, open portal</button></div>
@@ -59,20 +63,22 @@ label{display:block;font-size:12.5px;font-weight:600;color:var(--mu);margin:13px
 <script>
 const $=s=>document.querySelector(s),q=new URLSearchParams(location.search),NEXT=(q.get("next")||"app.html").replace(/[^\w.\-]/g,"")||"app.html";
 let T=localStorage.getItem("vantage.theme");if(T)document.documentElement.dataset.theme=T;
+const ORG=AUTH.org();if(ORG){$("#sb1").textContent="Sign in to "+ORG.name+".";$("#wb").textContent="Welcome to "+ORG.name}
 $("#th").onclick=()=>{const d=document.documentElement,dark=d.dataset.theme?d.dataset.theme=="dark":matchMedia("(prefers-color-scheme:dark)").matches;d.dataset.theme=dark?"light":"dark";localStorage.setItem("vantage.theme",d.dataset.theme)};
 const go=()=>{document.body.style.transition="opacity .35s,transform .35s";document.body.style.opacity=0;document.body.style.transform="scale(1.02)";setTimeout(()=>location.replace(NEXT),320)};
-function show(id){document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on",p.id=="p-"+id));$("#tabs").style.display=id=="in"||id=="up"?"":"none";if(id=="in"||id=="up")$("#seg").classList.toggle("r",id=="up");const f=$("#p-"+id+" input");f&&setTimeout(()=>f.focus(),60)}
+function show(id){document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on",p.id=="p-"+id));$("#tabs").style.display=id=="in"||id=="up"?"":"none";const f=$("#p-"+id+" input");f&&setTimeout(()=>f.focus(),60)}
 document.addEventListener("click",e=>{const t=e.target.closest("[data-t]");if(t){e.preventDefault();show(t.dataset.t)}const y=e.target.closest("[data-eye]");if(y){const i=$("#"+y.dataset.eye);i.type=i.type=="password"?"text":"password"}});
 document.addEventListener("keyup",e=>{if(e.target.type=="password"&&e.getModifierState)$("#c1").style.display=e.getModifierState("CapsLock")?"block":"none"});
 $("#w2").oninput=e=>{const s=AUTH.strength(e.target.value);document.querySelectorAll("#mt i").forEach((i,k)=>i.style.background=k<s?["#ff3b30","#ff9500","#ffcc00","#34c759"][s-1]:"");$("#ml").textContent=e.target.value?["Too weak","Weak","Okay","Good","Strong"][s]:"Use 8+ characters"};
 async function run(form,btn,err,fn){form.addEventListener("submit",async e=>{e.preventDefault();const b=$(btn),o=b.innerHTML;b.disabled=true;b.innerHTML='<i class="sp"></i>';$(err).textContent="";try{await fn()}catch(x){$(err).textContent=x.message;form.classList.remove("sh");void form.offsetWidth;form.classList.add("sh")}b.disabled=false;b.innerHTML=o})}
-run($("#p-in"),"#b1","#x1",async()=>{await AUTH.login($("#e1").value,$("#w1").value,$("#rm1").checked);go()});
-run($("#p-up"),"#b2","#x2",async()=>{const r=await AUTH.signup($("#n2").value,$("#e2").value,$("#w2").value,$("#rm2").checked);showCode(r.code)});
+run($("#p-in"),"#b1","#x1",async()=>{const u=await AUTH.login($("#e1").value,$("#w1").value,$("#rm1").checked);if(u.must){TMP=$("#w1").value;show("ch")}else go()});
+run($("#p-up"),"#b2","#x2",async()=>{const r=await AUTH.setup($("#o2").value,$("#n2").value,$("#e2").value,$("#w2").value);showCode(r.code)});
+let TMP="";run($("#p-ch"),"#b4","#x4",async()=>{await AUTH.changePw(TMP,$("#w4").value);go()});
 run($("#p-fg"),"#b3","#x3",async()=>{const r=await AUTH.recover($("#e3").value,$("#r3").value,$("#w3").value);showCode(r.code,1)});
 function showCode(c,reset){$("#rcv").textContent=c;$("#go").textContent=reset?"Password reset, sign in":"I saved it, open portal";$("#go").onclick=()=>reset?(AUTH.out(1),show("in")):go();show("rc");$("#tabs").style.display="none"}
 $("#cp").onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText($("#rcv").textContent);$("#cp").textContent="Copied ✓"};
 $("#dl").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["Vantage ESS recovery code: "+$("#rcv").textContent+"\nKeep this somewhere safe.\n"],{type:"text/plain"}));a.download="vantage-recovery-code.txt";a.click()};
 if(q.get("out"))$("#wb").textContent="You are signed out";
-const s=AUTH.session();if(s&&!q.get("out")){$("#wb").textContent="Welcome back, "+s.name.split(" ")[0];$("#p-in .sub").innerHTML='You are already signed in. <a class="lnk" href="'+NEXT+'">Open portal ›</a>'}
-if(!AUTH.accounts().length)show("up");
+const s=AUTH.session();if(s&&s.must&&!q.get("out")){TMP="";$("#p-ch .sub").textContent="Enter your temporary password, then choose a new one.";$("#p-ch").insertAdjacentHTML("afterbegin",'<label for="w5">Temporary password</label><div class="f"><input id="w5" type="password" required></div>');$("#p-ch").onsubmit=null;document.getElementById("p-ch").addEventListener("submit",()=>{TMP=$("#w5")?$("#w5").value:TMP},true);show("ch")}else if(s&&!q.get("out")){$("#wb").textContent="Welcome back, "+s.name.split(" ")[0];$("#p-in .sub").innerHTML='You are already signed in. <a class="lnk" href="'+NEXT+'">Open portal ›</a>'}
+if(!AUTH.org())show("up");else if(!(s&&s.must&&!q.get("out")))show("in");
 </script></body></html>

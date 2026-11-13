@@ -33,10 +33,11 @@ html,body{overflow:hidden}body{position:fixed;inset:0;height:100dvh}.wrap{max-he
 <h2>Your whole workday,<br>one secure place.</h2><p>Leave, time, attendance, tasks, expenses and ERP data in a single workspace.</p>
 <ul><li>🏢 One organization, many users</li><li>🛡 Admin creates and manages accounts</li><li>🔌 Odoo, ERPNext, SAP and REST sync</li></ul></div>
 <div class="main">
-<div class="top"><a href="index.html">‹ Back to home</a><button class="tg" id="th" title="Light / dark">◐</button></div>
+<div class="top"><a href="index.html">‹ Back to home</a><button class="tg" id="th" title="Light / dark" style="display:grid;place-items:center;font-size:17px;line-height:1">☾</button></div>
 <div id="tabs" style="display:none!important"></div>
 
 <form class="pane on" id="p-in" autocomplete="on"><h1 id="wb">Welcome back</h1><p class="sub" id="sb1">Sign in to open your portal.</p>
+<div id="wc" style="display:none;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:var(--in);margin-bottom:4px"><b id="wa" style="width:40px;height:40px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font-size:14px"></b><span style="flex:1;min-width:0"><b id="wn1" style="display:block;line-height:1.25"></b><small class="mu" id="we" style="color:var(--mu)"></small></span><button type="button" class="lnk" id="nu">Not you?</button></div>
 <label for="e1">Email</label><div class="f"><input id="e1" type="email" autocomplete="username" required></div>
 <label for="w1">Password</label><div class="f"><input id="w1" type="password" autocomplete="current-password" required><button type="button" class="eye" data-eye="w1">👁</button></div><div class="cap" id="c1">Caps Lock is on</div>
 <div class="row"><label class="sw"><input type="checkbox" id="rm1" checked><b></b>Keep me signed in</label><button type="button" class="lnk" data-t="fg">Forgot password?</button></div>
@@ -66,7 +67,8 @@ html,body{overflow:hidden}body{position:fixed;inset:0;height:100dvh}.wrap{max-he
 <script>
 const $=s=>document.querySelector(s),q=new URLSearchParams(location.search),NEXT=(q.get("next")||"app.html").replace(/[^\w.\-]/g,"")||"app.html";
 let T=localStorage.getItem("vantage.theme");if(T)document.documentElement.dataset.theme=T;
-const ORG=AUTH.org();if(ORG){$("#sb1").textContent="Sign in to "+ORG.name+".";$("#wb").textContent="Welcome to "+ORG.name}
+const ORG=AUTH.org();if(ORG&&ORG.color)document.documentElement.style.setProperty("--ac",ORG.color);const LU=(()=>{try{return JSON.parse(localStorage.getItem("vantage.last"))}catch(e){return null}})();if(LU&&ORG){$("#e1").value=LU.email;$("#wc").style.display="flex";const EF=[$("label[for=e1]"),$("#e1").parentNode],eh=v=>EF.forEach(x=>x.style.display=v?"none":"");eh(1);$("#wa").textContent=LU.name.split(" ").map(x=>x[0]).join("").slice(0,2).toUpperCase();$("#wn1").textContent="Welcome back, "+LU.name.split(" ")[0];$("#we").textContent=LU.email;$("#nu").onclick=()=>{eh(0);$("#wc").style.display="none";$("#e1").value="";$("#e1").focus();localStorage.removeItem("vantage.last")};setTimeout(()=>$("#w1").focus(),80)}
+if(ORG){$("#sb1").textContent="Sign in to "+ORG.name+".";$("#wb").textContent=LU?"Hello again":"Welcome to "+ORG.name}
 $("#th").onclick=()=>{const d=document.documentElement,dark=d.dataset.theme?d.dataset.theme=="dark":matchMedia("(prefers-color-scheme:dark)").matches;d.dataset.theme=dark?"light":"dark";localStorage.setItem("vantage.theme",d.dataset.theme)};
 const go=()=>{document.body.style.transition="opacity .35s,transform .35s";document.body.style.opacity=0;document.body.style.transform="scale(1.02)";setTimeout(()=>location.replace(NEXT),320)};
 function show(id){document.querySelectorAll(".pane").forEach(p=>p.classList.toggle("on",p.id=="p-"+id));$("#tabs").style.display=id=="in"||id=="up"?"":"none";const f=$("#p-"+id+" input");f&&setTimeout(()=>f.focus(),60)}

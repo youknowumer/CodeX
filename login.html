@@ -26,6 +26,7 @@ html,body{overflow:hidden}body{position:fixed;inset:0;height:100dvh}.wrap{max-he
 @media(max-height:760px){body{padding:12px}.wrap{max-height:calc(100dvh - 24px)}.main{padding:22px 34px}.side{padding:28px 34px;gap:12px}.side ul{display:none}.side h2{font-size:26px}h1{font-size:22px}.sub{margin-bottom:8px;font-size:13.5px}label{margin:8px 0 3px}input[type=text],input[type=email],input[type=password]{height:40px}.eye{top:2px}.btn{height:42px;margin-top:12px}.row{margin-top:10px}.top{margin-bottom:8px}.er{margin-top:6px;min-height:16px}}
 @media(max-height:600px){.sub{display:none}.side p{display:none}.rc{padding:10px;margin:8px 0}}
 @media(max-width:760px){.wrap{grid-template-columns:1fr}.side{display:none}.main{padding:28px 22px}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+select{width:100%;height:46px;border-radius:12px;border:1.5px solid transparent;background:var(--in);color:var(--tx);padding:0 12px;font:inherit;outline:0}select:focus{border-color:var(--ac)}#stp{gap:6px;margin:0 0 16px}#stp i{flex:1;height:4px;border-radius:9px;background:var(--in);transition:background .3s}#stp i.on{background:var(--ac)}
 </style></head><body>
 <i class="bl b1"></i><i class="bl b2"></i><i class="bl b3"></i>
 <div class="wrap">
@@ -44,11 +45,11 @@ html,body{overflow:hidden}body{position:fixed;inset:0;height:100dvh}.wrap{max-he
 <div class="er" id="x1"></div><button class="btn" id="b1">Sign in</button></form>
 
 <form class="pane" id="p-up" autocomplete="on"><h1 id="h2">Set up your organization</h1><p class="sub" id="s2">Create the organization and its administrator. The admin adds everyone else from inside the portal.</p>
-<div id="og"><label for="o2">Organization name</label><div class="f"><input id="o2" type="text" autocomplete="organization"></div></div>
-<label for="n2" id="l2">Administrator name</label><div class="f"><input id="n2" type="text" autocomplete="name" required></div>
+<div id="stp" style="display:none"><i class="on"></i><i></i></div><div id="og"><label for="o2">Organization name</label><div class="f"><input id="o2" type="text" autocomplete="organization"></div></div>
+<div id="st2"><label for="n2" id="l2">Administrator name</label><div class="f"><input id="n2" type="text" autocomplete="name" required></div>
 <label for="e2" id="m2">Administrator email</label><div class="f"><input id="e2" type="email" autocomplete="username" required></div>
-<label for="w2">Password</label><div class="f"><input id="w2" type="password" autocomplete="new-password" required><button type="button" class="eye" data-eye="w2">👁</button></div><div class="mt" id="mt"><i></i><i></i><i></i><i></i></div><div class="ml" id="ml">Use 8+ characters</div>
-<div id="dg" style="display:none"><label for="d2">Department (optional)</label><div class="f"><input id="d2" type="text"></div></div><div class="er" id="x2"></div><button class="btn" id="b2">Create organization</button></form>
+<label for="w2">Password</label><div class="f"><input id="w2" type="password" autocomplete="new-password" required><button type="button" class="eye" data-eye="w2">👁</button></div><div class="mt" id="mt"><i></i><i></i><i></i><i></i></div><div class="ml" id="ml">Use 8+ characters</div></div>
+<div id="dg" style="display:none"><label for="d2">Department (optional)</label><div class="f"><input id="d2" type="text"></div></div><div class="er" id="x2"></div><button class="btn" id="b2">Create organization</button><button type="button" class="btn g" id="bk" style="display:none">Back</button></form>
 
 <form class="pane" id="p-fg"><h1>Reset password</h1><p class="sub">Administrators can reset with their recovery code. Other users: ask your administrator to reset your password.</p>
 <label for="e3">Email</label><div class="f"><input id="e3" type="email" required></div>
@@ -81,7 +82,7 @@ document.addEventListener("keyup",e=>{if(e.target.type=="password"&&e.getModifie
 $("#w2").oninput=e=>{const s=AUTH.strength(e.target.value);document.querySelectorAll("#mt i").forEach((i,k)=>i.style.background=k<s?["#ff3b30","#ff9500","#ffcc00","#34c759"][s-1]:"");$("#ml").textContent=e.target.value?["Too weak","Weak","Okay","Good","Strong"][s]:"Use 8+ characters"};
 async function run(form,btn,err,fn){form.addEventListener("submit",async e=>{e.preventDefault();const b=$(btn),o=b.innerHTML;b.disabled=true;b.innerHTML='<i class="sp"></i>';$(err).textContent="";try{await fn()}catch(x){$(err).textContent=x.message;form.classList.remove("sh");void form.offsetWidth;form.classList.add("sh")}b.disabled=false;b.innerHTML=o})}
 run($("#p-in"),"#b1","#x1",async()=>{const u=await AUTH.login($("#e1").value,$("#w1").value,$("#rm1").checked);if(u.must){TMP=$("#w1").value;show("ch")}else go()});
-run($("#p-up"),"#b2","#x2",async()=>{if(ORG){await AUTH.requestAccess($("#n2").value,$("#e2").value,$("#w2").value,$("#d2").value);$("#p-up").reset();show("ok");return}const r=await AUTH.setup($("#o2").value,$("#n2").value,$("#e2").value,$("#w2").value);showCode(r.code)});
+run($("#p-up"),"#b2","#x2",async()=>{if(ORG){await AUTH.requestAccess($("#n2").value,$("#e2").value,$("#w2").value,$("#d2").value);$("#p-up").reset();show("ok");return}const r=await AUTH.setup($("#o2").value,$("#n2").value,$("#e2").value,$("#w2").value,PROF());showCode(r.code)});
 let TMP="";run($("#p-ch"),"#b4","#x4",async()=>{await AUTH.changePw(TMP,$("#w4").value);go()});
 run($("#p-fg"),"#b3","#x3",async()=>{const r=await AUTH.recover($("#e3").value,$("#r3").value,$("#w3").value);showCode(r.code,1)});
 function showCode(c,reset){$("#rcv").textContent=c;$("#go").textContent=reset?"Password reset, sign in":"I saved it, open portal";$("#go").onclick=()=>reset?(AUTH.out(1),show("in")):go();show("rc");$("#tabs").style.display="none"}
@@ -89,5 +90,10 @@ $("#cp").onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText($("#rcv
 $("#dl").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["Vantage ESS recovery code: "+$("#rcv").textContent+"\nKeep this somewhere safe.\n"],{type:"text/plain"}));a.download="vantage-recovery-code.txt";a.click()};
 if(q.get("out"))$("#wb").textContent="You are signed out";
 const s=AUTH.session();if(s&&s.must&&!q.get("out")){TMP="";$("#p-ch .sub").textContent="Enter your temporary password, then choose a new one.";$("#p-ch").insertAdjacentHTML("afterbegin",'<label for="w5">Temporary password</label><div class="f"><input id="w5" type="password" required></div>');$("#p-ch").onsubmit=null;document.getElementById("p-ch").addEventListener("submit",()=>{TMP=$("#w5")?$("#w5").value:TMP},true);show("ch")}else if(s&&!q.get("out")){$("#wb").textContent="Welcome back, "+s.name.split(" ")[0];$("#p-in .sub").innerHTML='You are already signed in. <a class="lnk" href="'+NEXT+'">Open portal ›</a>'}
+let PROF=()=>({});
+if(!ORG){const og=$("#og"),st2=$("#st2"),b2=$("#b2"),stp=$("#stp"),fm=$("#p-up");og.insertAdjacentHTML("beforeend",AUTH.profHtml({},"o_"));PROF=()=>AUTH.profGet("o_");stp.style.display="flex";let st=1;
+const sync=()=>{fm.noValidate=st==1;og.style.display=st==1?"":"none";st2.style.display=st==2?"":"none";$("#bk").style.display=st==2?"":"none";b2.textContent=st==1?"Continue":"Create organization";$("#h2").textContent=st==1?"Set up your organization":"Create the administrator";$("#s2").textContent=st==1?"Tell us about your company and which ERP it runs on. You can change this later.":"This account manages "+($("#o2").value.trim()||"the organization")+" and creates every other user.";stp.children[1].classList.toggle("on",st==2)};
+fm.addEventListener("submit",e=>{if(st==1){e.preventDefault();e.stopImmediatePropagation();if($("#o2").value.trim().length<2){$("#x2").textContent="Enter the organization name";return}$("#x2").textContent="";st=2;sync();setTimeout(()=>$("#n2").focus(),60)}},true);
+$("#bk").onclick=()=>{st=1;sync()};sync()}
 if(!AUTH.org()||(q.get("mode")=="up"&&SU))show("up");else if(!(s&&s.must&&!q.get("out")))show("in");
 </script></body></html>

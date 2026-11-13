@@ -1,6 +1,11 @@
 # Vantage ESS v4.4.0
 Employee Self-Service Platform: Dashboard, Profile, Team, Calendar, Leave, Timesheet, Attendance, Tasks, Expenses, Holidays, Delegation, Files, Cases, Reports.
 
+## Unreleased (next version)
+- **Organization wizard**: first visit is now two steps. Step 1 captures industry, size, country and the ERP the company uses (Odoo, ERPNext, SAP, Dynamics 365, NetSuite, Zoho, Tally, QuickBooks, custom or none). Step 2 creates the administrator
+- **Organization profile** card on the Users page (admin can edit it later)
+- **Field map**: each person can have a work area (site name, coordinates, radius circle). Admin sees everyone and places people by clicking the map; managers see their department; employees see only themselves. Search, department filter, "use my current location". Map tiles need internet (Leaflet + OpenStreetMap)
+
 ## What is new in 4.4
 - **Create account / sign-up**: the login page has a Create account tab. A new person requests access; the admin approves (or deletes) the request in Users. The admin can switch sign-up requests off in Settings > Organization
 

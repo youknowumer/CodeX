@@ -11,7 +11,7 @@ function createWindow() {
     backgroundColor: '#f2f2f7', autoHideMenuBar: true, icon: path.join(__dirname, 'build', 'icon.png'),
     webPreferences: { preload: path.join(__dirname, 'preload.js'), contextIsolation: true, nodeIntegration: false, sandbox: true, devTools: !app.isPackaged }
   });
-  win.loadFile('index.html');
+  win.loadFile('login.html');
   win.webContents.setWindowOpenHandler(({ url }) => { ext(url); return { action: 'deny' }; });
   win.webContents.on('will-navigate', (e, url) => { if (!url.startsWith('file://')) { e.preventDefault(); ext(url); } });
 }

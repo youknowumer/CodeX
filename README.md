@@ -1,7 +1,14 @@
-# Vantage ESS v4.0.0
+# Vantage ESS v4.1.0
 Employee Self-Service Platform: Dashboard, Profile, Team, Calendar, Leave, Timesheet, Attendance, Tasks, Expenses, Holidays, Delegation, Files, Cases, Reports.
 
-## What is new in 4.0
+## What is new in 4.1
+- **Flow**: `index.html` (landing) → `login.html` (sign in / create account / reset) → `app.html` (portal). Opening `app.html` directly without a session redirects to login
+- **Accounts**: PBKDF2-SHA256 password hashes, one-time recovery code, lockout after 5 wrong attempts, keep-me-signed-in (30 days) or session-only, sign out in the top bar, change password in Settings > Account
+- **Per-account data**: the first account adopts your existing portal data; later accounts get their own workspace
+- Desktop app opens at the login screen
+- Note: accounts live in this browser/device. This protects the UI on a shared computer; it is not server-side security
+
+## What was new in 4.0
 - **iOS design**: frosted sidebar, large titles, sheet dialogs, iOS switches and system colours (light and dark), spring motion, count-up numbers, reduced-motion support
 - **Connections**: Odoo 19+ (JSON-2), Odoo JSON-RPC, ERPNext, SAP OData, Dynamics 365, Shopify, Airtable, Supabase, Google Sheets CSV and any REST API. Automatic paging, retry with backoff, same-origin paging links, scheduled auto-sync, health panel
 - **Outgoing webhook**: signed (HMAC-SHA256) events for every create/update/delete and check-in/out, with an offline retry queue
@@ -24,8 +31,10 @@ Employee Self-Service Platform: Dashboard, Profile, Team, Calendar, Leave, Times
 
 
 ## Contents
-- `index.html`      The app (works standalone in any browser: just double-click it)
-- `website/`        Landing page (its "Launch app" button opens ../index.html)
+- `index.html`      Landing page (start here)
+- `login.html`      Sign in, create account, reset password
+- `app.html`        The portal (needs a signed-in session)
+- `auth.js`         Accounts and session logic
 - `main.js`, `package.json`   Desktop (Electron) wrapper
 - `manifest.webmanifest`, `sw.js`   Offline install (PWA) when hosted over https
 - `version.json`    Sample update-manifest for the in-app Update centre

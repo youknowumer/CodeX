@@ -653,6 +653,55 @@ document.head.insertAdjacentHTML("beforeend",`<style>
 @media print{#tbar{display:none!important}}
 </style>`);
 const _r45=render;render=function(){ENS();_r45.apply(this,arguments);chrome()};
+/* ===== v4.5 detailing pass: richer records, references, status history, sortable tables ===== */
+{const addF=(k,i,...f)=>{const a=C[k].f,j=typeof i=="string"?a.findIndex(x=>x[0]==i)+1:i;a.splice(j,0,...f)};
+addF("leaves","reason",["cover","Handover to"],["contact","Contact during leave"],["appr","Approver"]);
+addF("cases","cat",["pri","Priority","select",["Low","Medium","High","Critical"]],["asg","Assigned to"],["due","Target resolution date","date"]);
+C.cases.f.push(["res","Resolution notes","textarea"]);
+addF("exp","cat",["merch","Merchant / vendor"],["pm","Payment method","select",["Personal card","Cash","Company card","Bank transfer"]],["proj","Project / cost centre"],["rcpt","Receipt / invoice no."]);
+C.exp.f.push(["note","Notes","textarea"]);
+addF("tasks","pri",["asg","Assignee"],["proj","Project"],["est","Estimate (hours)","number"],["tags","Tags (comma separated)"]);
+addF("team","role",["dept","Department"],["phone","Phone"],["loc","Location"],["dob","Birthday","date"]);
+addF("events","title",["kind","Type","select",["Meeting","Training","Deadline","Social","Other"]]);addF("events","time",["place","Location / link"],["who","Attendees"]);
+addF("att","out",["mode","Work mode","select",["Office","Remote","Field","Client site"]],["note","Note"]);
+addF("files","name",["cat","Category","select",["Contract","Payslip","ID / compliance","Certificate","Policy","Other"]]);addF("files","date",["expires","Expires on","date"],["conf","Confidential","select",["No","Yes"]]);
+addF("goals","kind",["cat","Level","select",["Company","Team","Individual"]],["owner","Owner / reviewer"],["wt","Weight (%)","number"],["start","Baseline","number"],["target","Target","number"],["cur","Current value","number"]);
+addF("learn","provider",["cert","Certificate / ID no."],["cost","Cost","number"],["mand","Mandatory","select",["No","Yes"]]);
+addF("pay","period",["paid","Payment date","date"],["days","Working days","number"],["ot","Overtime hours","number"],["bank","Paid to (bank / last 4)"]);
+addF("assets","tag",["serial","Serial no."],["cond","Condition","select",["New","Good","Fair","Poor"]],["loc","Location"],["val","Value","number"]);
+addF("policy","ver",["owner","Policy owner"],["mand","Mandatory","select",["Yes","No"]],["ackby","Acknowledge by","date"]);
+addF("kudos","to",["by","Recognised by"],["vis","Visibility","select",["Team","Company","Private"]]);
+C.p.f.push(["dob","Date of birth","date"],["nat","Nationality"],["addr","Address"],["ecn","Emergency contact"],["ecp","Emergency phone"],["bank","Bank (name / last 4 digits)"]);
+Object.entries({leaves:"LV",cases:"CS",exp:"EX",tasks:"TK",pay:"PS",assets:"AS",policy:"PL",goals:"GL",learn:"LR",kudos:"RC"}).forEach(([k,p])=>{C[k].f.unshift(["ref","Reference"]);C[k].pfx=p})}
+const DK=/^(dob|expires|ackd|paid|ackby|exp)$/,cell2=(k,v)=>DK.test(k)&&/^\d{4}-/.test(v||"")?fd(v):cell(k,v);
+/* personal details card on Profile */
+{const _vp=V.profile;V.profile=()=>{const p=D.p||{},r=(a,b)=>`<div class="row"><span class="mu">${a}</span><b>${esc(b||"—")}</b></div>`;return _vp()+`<div class="grid g2 mt"><div class="card"><div class="top"><h3>Personal details</h3><button class="btn" data-e="p:p">Edit</button></div>${r("Date of birth",p.dob?fd(p.dob):"")}${r("Nationality",p.nat)}${r("Address",p.addr)}</div><div class="card"><h3>Emergency and payment</h3>${r("Emergency contact",p.ecn)}${r("Emergency phone",p.ecp)}${r("Bank",p.bank)}</div></div>`}}
+/* references, timestamps, status history, goal auto-progress */
+const _of=openF;openF=function(k,id,pre){_of(k,id,pre);const rec=id&&k!="p"?D[k].find(x=>x.id==id):null;if(ctx)ctx.os=rec?rec.status:undefined;const f=$("#fm");if(!f)return;
+const r=f.querySelector("[name=ref]");if(r){r.readOnly=true;r.placeholder="Assigned on save";r.style.opacity=.7}
+if(rec){const h=rec.hist||[];f.querySelector(".act").insertAdjacentHTML("beforebegin",`<details class="hist" style="margin-top:14px"><summary style="cursor:pointer;font-weight:600">Activity <span class="mu">(${h.length+1})</span></summary><div style="margin-top:8px;font-size:12.5px">${h.slice().reverse().map(x=>`<div class="row"><span>${x.from?esc(x.from)+" → ":""}<b>${esc(x.to)}</b></span><span class="mu">${esc(x.by)} · ${new Date(x.t).toLocaleString()}</span></div>`).join("")}<div class="row"><span>Record created</span><span class="mu">${esc(rec._cb||"—")} · ${rec._c?new Date(rec._c).toLocaleString():"earlier version"}</span></div>${rec._u?`<div class="row"><span>Last edited</span><span class="mu">${new Date(rec._u).toLocaleString()}</span></div>`:""}</div></details>`)}};
+document.addEventListener("submit",e=>{if(!ctx||!C[ctx.k]||ctx.k=="p"||ctx.k=="erp"||!Array.isArray(D[ctx.k])||$("#md").classList.contains("on"))return;
+const k=ctx.k,c=C[k],r=ctx.id?D[k].find(x=>x.id==ctx.id):D[k][D[k].length-1];if(!r)return;const now=Date.now();
+if(!ctx.id){r._c=now;r._cb=SES.name}else r._u=now;
+if(c.pfx&&!r.ref){D.s.seq=D.s.seq||{};D.s.seq[k]=(D.s.seq[k]||0)+1;r.ref=c.pfx+"-"+String(D.s.seq[k]).padStart(4,"0")}
+if(k=="goals"&&(r.progress===""||r.progress==null)&&+r.target>0)r.progress=String(Math.min(100,Math.round(((+r.cur||0)-(+r.start||0))/((+r.target)-(+r.start||0))*100)));
+if(c.f.some(f=>f[0]=="status")&&(!ctx.id||r.status!==ctx.os)){r.hist=r.hist||[];r.hist.push({t:new Date().toISOString(),from:ctx.id?ctx.os:"",to:r.status||"—",by:SES.name})}
+save();render()});
+/* professional tables: sortable columns, status filter, count, export, row click */
+const SORT={},STF={};
+tbl=function(k,arr){const c=C[k],all=arr||D[k];if(!all.length)return empty(k);const x=XT[k],sf=c.f.find(f=>f[0]=="status");let a=[...all];if(sf&&STF[k])a=a.filter(r=>r.status==STF[k]);
+const s=SORT[k];if(s)a.sort((p,q)=>{const u=p[s.c]??"",v=q[s.c]??"",n=u!==""&&v!==""&&!isNaN(u)&&!isNaN(v);return(n?u-v:String(u).localeCompare(String(v),undefined,{numeric:true}))*s.d});else a.sort((p,q)=>String(q.date||q.from||q.id).localeCompare(String(p.date||p.from||p.id)));
+let cols=c.f.filter(f=>f[2]!="textarea");while(cols.length>7){let i=cols.length-1;while(i>1&&cols[i][0]=="status")i--;cols.splice(i,1)}
+const th=f=>{const on=s&&s.c==f[0];return`<th class="sk" tabindex="0" role="button" data-sk="${k}:${f[0]}" aria-sort="${on?(s.d>0?"ascending":"descending"):"none"}">${f[1]}${on?(s.d>0?" ▲":" ▼"):""}</th>`};
+const opts=sf?(sf[3]==="@types"?[]:sf[3]):[];
+return`<div class="tbar"><input class="tq" placeholder="Filter ${c.p}…" aria-label="Filter ${c.p}">${sf?`<select class="stf" data-stk="${k}" aria-label="Filter by status"><option value="">All statuses</option>${opts.map(o=>`<option ${STF[k]==o?"selected":""}>${esc(o)}</option>`).join("")}</select>`:""}<span class="mu cnt">${a.length==all.length?all.length+" "+(all.length==1?c.n.toLowerCase():c.p):"Showing "+a.length+" of "+all.length}</span><span class="grow"></span>${MODS.includes(k)?`<button class="btn" data-csv="${k}">⬇ CSV</button>`:""}</div><div class="wrap"><table><tr>${cols.map(th).join("")}${x?`<th>${x[0]}</th>`:""}<th></th></tr>${a.map(r=>`<tr data-row="${k}:${r.id}" style="cursor:pointer">${cols.map(f=>`<td>${f[0]=="ref"?`<span class="mu" style="font-variant-numeric:tabular-nums">${esc(r.ref||"—")}</span>`:cell2(f[0],r[f[0]])}</td>`).join("")}${x?`<td>${x[1](r)}</td>`:""}<td><button class="ic" data-e="${k}:${r.id}" title="Open" aria-label="Open ${c.n.toLowerCase()}">›</button></td></tr>`).join("")||`<tr><td colspan="9" class="mu" style="text-align:center;padding:24px">No ${c.p} match this filter.</td></tr>`}</table></div>`};
+document.addEventListener("click",e=>{const t=e.target.closest(".sk");if(t){const[k,f]=t.dataset.sk.split(":"),s=SORT[k];SORT[k]=!s||s.c!=f?{c:f,d:1}:s.d>0?{c:f,d:-1}:null;if(!SORT[k])delete SORT[k];render()}});
+document.addEventListener("keydown",e=>{if((e.key=="Enter"||e.key==" ")&&e.target.classList&&e.target.classList.contains("sk")){e.preventDefault();e.target.click()}});
+document.addEventListener("click",e=>{const r=e.target.closest("tr[data-row]");if(r&&!e.target.closest("button,a,input,select,textarea")){const[k,i]=r.dataset.row.split(":");openF(k,i)}});
+document.addEventListener("change",e=>{if(e.target.classList.contains("stf")){STF[e.target.dataset.stk]=e.target.value;render()}});
+document.head.insertAdjacentHTML("beforeend",`<style>.tbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.tbar .tq{max-width:240px;flex:1 1 160px}.tbar .stf{width:auto;min-width:150px}.tbar .cnt{font-size:12.5px}th.sk{cursor:pointer;user-select:none;white-space:nowrap}th.sk:hover,th.sk:focus-visible{color:var(--ac)}tr[data-row]:hover td{background:var(--acs)}@media(max-width:820px){.tbar .stf{min-width:0;flex:1}}</style>`);
+const _r46=render;render=function(){let ch=0;D.s.seq=D.s.seq||{};Object.keys(C).forEach(k=>{if(!C[k].pfx||!Array.isArray(D[k]))return;D[k].forEach(r=>{if(!r.ref){D.s.seq[k]=(D.s.seq[k]||0)+1;r.ref=C[k].pfx+"-"+String(D.s.seq[k]).padStart(4,"0");ch=1}})});if(ch)save();_r46.apply(this,arguments)};
+RELEASES.find(r=>r.v=="4.5.0").n.push("Detailing pass: richer records for leave, cases, expenses, tasks, team, events, attendance, files and profile; auto reference numbers, created/edited stamps and status history on every record; sortable tables with status filter, row count, CSV and row click");
 mig();render();$("#sn").textContent=D.s.ws||APP;
 ["Loading your workspace…","Applying your preferences…","Almost ready…"].forEach((m,i)=>setTimeout(()=>$("#sm").textContent=m,i*550));
 setTimeout(()=>{$("#splash").classList.add("out");if(NEWV)showNew()},1700);setTimeout(()=>$("#splash").remove(),2300);

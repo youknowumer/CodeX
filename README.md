@@ -4,6 +4,7 @@ Employee Self-Service Platform: Dashboard, Profile, Team, Calendar, Leave, Times
 ## What is new in 4.5
 - **Mobile navigation fixed**: iOS-style bottom tab bar (Home, Calendar, Leave, Attendance, More), compact icon-only top bar, sign out in the menu drawer, safe-area aware
 - **Notification centre**: bell with unread badge for leave, tasks, events, holidays, training expiry, asset returns, unacknowledged policies, goals at risk and stale backups
+- **Detailing pass**: richer fields, auto reference numbers, created/edited stamps, status history, sortable and filterable tables
 - **New modules**: Goals, Learning, Payslips (printable), Assets, Policies (acknowledge), Recognition. Validation, CSV export and Ctrl+K search included
 
 ## Unreleased (next version)

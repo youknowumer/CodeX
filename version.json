@@ -1,1 +1,15 @@
-{"version": "4.4.0", "notes": ["Create account requests with admin approval", "Personalised workspace with organization branding and an alignment pass", "Organization with admin-managed users, collapsible menu and mobile drawer", "Landing page, sign in and create account before the portal; per-account data, recovery code, sign out", "iOS design, motion, stronger ERP connectivity, webhooks and business records", "ERP connections (ERPNext, Odoo, SAP OData, Dynamics, REST, CSV/JSON)", "Customizable Home widgets, report builder and theme gallery"], "url": "https://example.com/vantage-ess"}
+{
+ "version": "4.5.0",
+ "notes": [
+  "Bottom tab bar, compact top bar and notification centre",
+  "New modules: Goals, Learning, Payslips, Assets, Policies, Recognition",
+  "Create account requests with admin approval",
+  "Personalised workspace with organization branding and an alignment pass",
+  "Organization with admin-managed users, collapsible menu and mobile drawer",
+  "Landing page, sign in and create account before the portal; per-account data, recovery code, sign out",
+  "iOS design, motion, stronger ERP connectivity, webhooks and business records",
+  "ERP connections (ERPNext, Odoo, SAP OData, Dynamics, REST, CSV/JSON)",
+  "Customizable Home widgets, report builder and theme gallery"
+ ],
+ "url": "https://example.com/vantage-ess"
+}

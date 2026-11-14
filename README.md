@@ -1,5 +1,10 @@
-# Vantage ESS v4.4.0
+# Vantage ESS v4.5.0
 Employee Self-Service Platform: Dashboard, Profile, Team, Calendar, Leave, Timesheet, Attendance, Tasks, Expenses, Holidays, Delegation, Files, Cases, Reports.
+
+## What is new in 4.5
+- **Mobile navigation fixed**: iOS-style bottom tab bar (Home, Calendar, Leave, Attendance, More), compact icon-only top bar, sign out in the menu drawer, safe-area aware
+- **Notification centre**: bell with unread badge for leave, tasks, events, holidays, training expiry, asset returns, unacknowledged policies, goals at risk and stale backups
+- **New modules**: Goals, Learning, Payslips (printable), Assets, Policies (acknowledge), Recognition. Validation, CSV export and Ctrl+K search included
 
 ## Unreleased (next version)
 - **Organization wizard**: first visit is now two steps. Step 1 captures industry, size, country and the ERP the company uses (Odoo, ERPNext, SAP, Dynamics 365, NetSuite, Zoho, Tally, QuickBooks, custom or none). Step 2 creates the administrator
